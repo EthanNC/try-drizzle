@@ -1,0 +1,26 @@
+{
+  "name": "try-drizzle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "migrate": "ts-node src/db/migrate",
+    "generate-migration": "drizzle-kit generate:pg --out src/db/migrations --schema src/db/schema.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "EthanNC",
+  "license": "ISC",
+  "dependencies": {
+    "drizzle-orm": "^0.25.3",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.1",
+    "@types/pg": "^8.6.6",
+    "dotenv": "^16.0.3",
+    "drizzle-kit": "^0.17.6",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
