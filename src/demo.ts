@@ -3,12 +3,13 @@ import { db } from "./db/client";
 import * as schema from "./db/schema";
 import { v4 as uuidv4 } from "uuid";
 
-async function createUser(user: InferModel<typeof schema.users, "insert">) {
+async function createUser(user: Partial<InferModel<typeof schema.users>>) {
   const date = new Date();
   const response = await db
     .insert(schema.users)
     .values({
-      ...user,
+      email: user.email as string,
+      name: user.name,
       createdAt: date,
       id: uuidv4(),
     })
