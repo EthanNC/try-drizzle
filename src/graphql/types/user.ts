@@ -68,7 +68,7 @@ builder.mutationFields((t) => ({
           schema: UserSchema.shape.email,
         },
       }),
-      name: t.arg.string({ required: true }),
+      name: t.arg.string({ required: false }),
     },
     resolve: async (_, args) => {
       const id = uuidv4();
