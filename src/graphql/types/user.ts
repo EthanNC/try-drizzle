@@ -1,5 +1,7 @@
-import { User, UserSchema, fromEmail, fromID } from "../../db/schema";
+import { db } from "../../db/client";
+import { User, UserSchema, fromEmail, fromID, users } from "../../db/schema";
 import { builder } from "../builder";
+import { v4 as uuidv4 } from "uuid";
 
 const UserType = builder.objectRef<User>("User").implement({
   fields: (t) => ({
@@ -45,6 +47,42 @@ builder.queryFields((t) => ({
       }
 
       return result;
+    },
+  }),
+  users: t.field({
+    type: [UserType],
+    resolve: async () => {
+      const result = await db.select().from(users).execute();
+      return result;
+    },
+  }),
+}));
+
+builder.mutationFields((t) => ({
+  createUser: t.field({
+    type: UserType,
+    args: {
+      email: t.arg.string({
+        required: true,
+        validate: {
+          schema: UserSchema.shape.email,
+        },
+      }),
+      name: t.arg.string({ required: true }),
+    },
+    resolve: async (_, args) => {
+      const id = uuidv4();
+      const result = await db
+        .insert(users)
+        .values({
+          id: id,
+          email: args.email,
+          name: args.name,
+        })
+        .returning()
+        .execute();
+
+      return result[0];
     },
   }),
 }));

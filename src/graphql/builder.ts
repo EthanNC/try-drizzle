@@ -21,3 +21,4 @@ export const builder = new SchemaBuilder({
 import "./types/user";
 
 builder.queryType({});
+builder.mutationType({});
